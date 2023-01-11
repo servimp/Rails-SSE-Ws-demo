@@ -1,0 +1,16 @@
+current directory: /home/luisrueda/Documents/projects/Ruby_apps/sse-clean/vendor/ruby/3.1.0/gems/debug-1.7.1/ext/debug
+/usr/local/rvm/rubies/ruby-3.1.2/bin/ruby -I /usr/local/rvm/rubies/ruby-3.1.2/lib/ruby/3.1.0 -r ./siteconf20230111-330683-95giwq.rb extconf.rb
+creating Makefile
+
+current directory: /home/luisrueda/Documents/projects/Ruby_apps/sse-clean/vendor/ruby/3.1.0/gems/debug-1.7.1/ext/debug
+make DESTDIR\= clean
+
+current directory: /home/luisrueda/Documents/projects/Ruby_apps/sse-clean/vendor/ruby/3.1.0/gems/debug-1.7.1/ext/debug
+make DESTDIR\=
+compiling debug.c
+compiling iseq_collector.c
+linking shared-object debug/debug.so
+
+current directory: /home/luisrueda/Documents/projects/Ruby_apps/sse-clean/vendor/ruby/3.1.0/gems/debug-1.7.1/ext/debug
+make DESTDIR\= install
+/usr/bin/install -c -m 0755 debug.so ./.gem.20230111-330683-yxb7xu/debug
