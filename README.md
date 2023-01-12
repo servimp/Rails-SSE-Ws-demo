@@ -9,7 +9,9 @@ Demo uses Rails 7+
 3: Run `websocketd --port=8080 ruby inventory.rb` from app/shoe-store/ 
 
 IMPORTANT: if you are having problems with the websocketd executable not found, set ENV variables
+
 `export PATH=$PATH:$HOME/websocketd/bin`
+
 `export PATH=$PATH:/usr/local/websocketd/bin`
 
 4: Start Rails `rails s`
@@ -18,6 +20,7 @@ IMPORTANT: if you are having problems with the websocketd executable not found, 
 
 ## Description
 An instance of event machine is used to get the WS data.
+
 SSE (Server sent events) are used to stream the messages received by WS.
 
 ## Features
