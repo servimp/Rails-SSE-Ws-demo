@@ -6,7 +6,9 @@ Demo uses Rails 7+
 
 2: `bundle install`
 
-3: Run `websocketd --port=8080 ruby inventory.rb` from app/shoe-store/ 
+3: Install websocketd
+
+Run `websocketd --port=8080 ruby inventory.rb` from app/shoestore/ 
 
 IMPORTANT: if you are having problems with the websocketd executable not found, set ENV variables
 
@@ -16,7 +18,7 @@ IMPORTANT: if you are having problems with the websocketd executable not found, 
 
 4: Start Rails `rails s`
 
-5: To view the demo go to http://localhost:3000/sse/
+5: To view the demo go to http://localhost:3000/index.html
 
 ## Description
 An instance of event machine is used to get the WS data.
@@ -27,7 +29,7 @@ SSE (Server sent events) are used to stream the messages received by WS.
 
 1: New stores are created when inventory information for a new store is received.
 
-2: If data for a new model is received, the model is created in the related store.
+2: If data for a new shoe model is received, the model is created in the related store.
 
 3: Re-stocking limits alerts are shown when inventory for a model is below 10 units.
 
