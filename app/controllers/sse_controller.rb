@@ -1,4 +1,4 @@
-require_relative '../shoe-store/consume_ws'
+require_relative '../shoestore/consume_ws'
 
 class SseController < ApplicationController
   include ActionController::Live
