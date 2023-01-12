@@ -1,24 +1,30 @@
-# README
+# Installation
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Note: Runs on Rails 7+
 
-Things you may want to cover:
+1: Clone the repository
 
-* Ruby version
+2: run `bundle install'
 
-* System dependencies
+3: run `websocketd --port=8080 ruby inventory.rb` from app/shoe-store/ 
+IMPORTANT: if you are having problems with the websocketd executable not found, set ENV variables
+`export PATH=$PATH:$HOME/websocketd/bin`
+`export PATH=$PATH:/usr/local/websocketd/bin`
 
-* Configuration
+4: Start Rails `rails s`
 
-* Database creation
+5: To see the demos open http://localhost:3000/sse/
 
-* Database initialization
+## Brief
+The Demo makes use of the WS-server using websocketd, an instance of event machine is used to receive the WS data.
+SSE (Server sent events) are used to stream the messages received by WS
 
-* How to run the test suite
+## Features
 
-* Services (job queues, cache servers, search engines, etc.)
+1: Stores are created whenever inventory information for a new store is received.
 
-* Deployment instructions
+2: If data for a new model is received, the model is created in the related store.
 
-* ...
+3: Re-stocking limits alerts are received below 10 units.
+
+4: Show store transfers are suggested after the model is available in other stores.
