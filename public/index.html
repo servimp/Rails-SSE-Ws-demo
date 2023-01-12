@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+body {font-family: Verdana, Geneva, Tahoma, sans-serif;}
+
+select {
+  width: 100%;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 4px;
+  background-color: #f1f1f1;
+  font-size: 18px;
+}
+
+.flex-container {
+  display: flex;
+  align-items: stretch;
+  background-color: #f1f1f1;
+}
+
+.flex-container > div {
+  background-color: DodgerBlue;
+  color: white;
+  margin: 6px;
+  padding: 8px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.select-container {
+  display: grid;
+  gap: 10px;
+  background-color: #234b6c;
+  padding: 10px;
+  width: 800px;
+  margin: auto;
+  height: 80px;
+}
+.grid-container {
+  display: grid;
+  gap: 10px;
+  background-color: #2196F3;
+  padding: 10px;
+  width: 800px;
+  margin: auto;
+}
+
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid black;
+  text-align: center;
+  font-size: 30px;
+}
+</style>
+</head>
+<body>
+
+<div class="grid-container">
+  <div>
+    <div class="flex-container">
+        <div style="width:100%;">
+            <form>
+                <select id="selectStore" onchange="showStoreInv()">
+                <option value="1" disabled selected>Select store to review available inventory</option>
+                </select>
+              </form>
+        </div>
+    </div>
+  </div>
+
+</div>
+
+<div id="ct_stores">
+<div id="store_ph" class="grid-container" style="padding-top:0px;">
+    <div>
+        <div class="flex-container">
+         STORE INFORMATION WILL LOAD HERE
+        </div>
+    </div>
+</div>
+</div>
+<div style="width: 796px; margin: auto; background-color: #234b6c; color: #fff; padding: 12px; "><span id="slogspan" style="cursor:pointer; text-decoration: underline;" onclick="slog()"><b>Show Message Log</b></span><span id="hlogspan" style="cursor:pointer; display: none; text-decoration: underline;" onclick="hlog()"><b>Hide Message Log</b></span></div>
+
+<div id="msglog" style="width: 820px; margin: auto; background-color: #234b6c; color: #fff; display: none;">
+<div id="list" style="padding:12px;"></div>
+</div>
+
+<script>
+const evtSource = new EventSource("http://localhost:3000/sse/", { withCredentials: true } );
+console.log('Before incoming msg');
+let counter = 0;
+let stores = {};
+let higherStock = {};
+let hsStore = {};
+let activeDiv = 'store_ph';
+
+
+evtSource.onmessage = (event) => {
+  counter = counter + 1;  
+  console.log('incoming msg');
+    
+  const newElement = document.createElement("li");
+  const eventList = document.getElementById("list");
+  const obj = JSON.parse(event.data);
+  const storeList = document.getElementById("ct_stores");
+
+  if (stores[obj.store]) {
+    console.log("Store already existing");
+        if (stores[obj.store][obj.model]) {
+            console.log("Model already exists, updating quantity");
+            stores[obj.store][obj.model] = obj.inventory;
+            document.getElementById(obj.store + obj.model).innerHTML = obj.inventory;
+        } else {
+            higherStock[obj.model] = obj.inventory;
+            hsStore[obj.model] = obj.store;
+            stores[obj.store][obj.model] = obj.inventory;
+            console.log("Model created and inventory updated");
+            let divElem = document.createElement("div");
+            divElem.setAttribute('class', 'flex-container');
+            divElem.innerHTML = '<div style="flex-grow: 10; text-align: left;"> Model: <b>'+obj.model+'</b></div><div style="flex-grow: 1; color:yellow;"> <b><span id="'+ obj.store + obj.model +'">'+obj.inventory+'</b></span></div>'
+            storeDiv = document.getElementById(obj.store);
+            storeDiv.appendChild(divElem);
+        }
+
+
+        if (obj.inventory < 10)
+        {alert('Qty available for model: ' + obj.model + ', at store: '+ obj.store +', is reaching re-stocking limits (qty: '+ obj.inventory +')')}
+
+        if (higherStock[obj.model] <= obj.inventory)
+        {
+            higherStock[obj.model] = obj.inventory;
+            hsStore[obj.model] = obj.store;
+        } else {
+            if (obj.inventory < 10)
+        {alert('Store: '+ hsStore[obj.model] +', has the most quantity of model: ' + obj.model + ' in stock (qty: '+ higherStock[obj.model] +'). Shoe transfer suggested')}
+        }
+
+        
+
+  }  else
+  { higherStock[obj.model] = obj.inventory;
+    hsStore[obj.model] = obj.store;
+    stores[obj.store] = {};
+    stores[obj.store][obj.model] = obj.inventory;
+    console.log("New store & model created");
+    let divElem = document.createElement("div");
+    divElem.setAttribute('id', obj.store);
+    divElem.setAttribute('class', 'grid-container');
+    divElem.setAttribute('style', 'padding-top:0px');
+    divElem.innerHTML = '<div><div style="text-align:center;">'+obj.store+'</div><div class="flex-container"><div style="flex-grow: 10; text-align: left;"> Model: <b>'+obj.model+'</b></div><div style="flex-grow: 1; color:yellow;"> <b>'+obj.inventory+'</b></div></div></div>'
+    document.getElementById(activeDiv).style.display = "none";
+    storeList.appendChild(divElem);
+    activeDiv = obj.store;
+    var selElem = document.getElementById("selectStore");
+    var option = document.createElement("option");
+    option.text = obj.store;
+    option.value = obj.store;
+    selElem.add(option);
+  }
+
+  newElement.textContent = 'Event No. ' + counter + ', data: ' + event.data;
+  eventList.appendChild(newElement);
+}
+
+function showStoreInv() {
+    var e = document.getElementById("selectStore");
+    var value = e.value;
+    var store = e.options[e.selectedIndex].text;
+    document.getElementById(activeDiv).style.display = "none";
+    document.getElementById(store).style.display = "block";
+    activeDiv = store;
+}
+
+function slog() {
+    document.getElementById('slogspan').style.display = 'none';
+    document.getElementById('msglog').style.display = 'block';
+    document.getElementById('hlogspan').style.display = 'inline-block';
+}
+
+function hlog() {
+    document.getElementById('hlogspan').style.display = 'none';
+    document.getElementById('msglog').style.display = 'none';
+    document.getElementById('slogspan').style.display = 'inline-block';
+}
+</script>
+
+</body>
+</html>
