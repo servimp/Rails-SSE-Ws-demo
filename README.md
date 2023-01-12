@@ -1,22 +1,22 @@
 # Installation
 
-Note: Demo uses Rails 7+
+Demo uses Rails 7+
 
-1: Clone the repository
+1: Clone the repo
 
 2: `bundle install`
 
-3: run `websocketd --port=8080 ruby inventory.rb` from app/shoe-store/ 
+3: Run `websocketd --port=8080 ruby inventory.rb` from app/shoe-store/ 
 IMPORTANT: if you are having problems with the websocketd executable not found, set ENV variables
 `export PATH=$PATH:$HOME/websocketd/bin`
 `export PATH=$PATH:/usr/local/websocketd/bin`
 
 4: Start Rails `rails s`
 
-5: To see the demo go to http://localhost:3000/sse/
+5: To view the demo go to http://localhost:3000/sse/
 
 ## Description
-An instance of event machine is used to receive the WS data.
+An instance of event machine is used to get the WS data.
 SSE (Server sent events) are used to stream the messages received by WS.
 
 ## Features
