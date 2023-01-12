@@ -1,12 +1,12 @@
 # Installation
 
-Demo uses Rails 7+
+Use Rails 7+
 
 1: Clone the repo
 
 2: `bundle install`
 
-3: Install websocketd
+3: Install `websocketd` then
 
 Run `websocketd --port=8080 ruby inventory.rb` from app/shoestore/ 
 
@@ -18,7 +18,7 @@ IMPORTANT: if you are having problems with the websocketd executable not found, 
 
 4: Start Rails `rails s`
 
-5: To view the demo go to http://localhost:3000/index.html
+5: Check demo on http://localhost:3000/index.html
 
 ## Description
 An instance of event machine is used to get the WS data.
