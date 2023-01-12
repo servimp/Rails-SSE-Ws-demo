@@ -33,4 +33,4 @@ SSE (Server sent events) are used to stream the messages received by WS.
 
 3: Re-stocking limits alerts are shown when inventory for a model is below 10 units.
 
-4: Show store transfers are suggested after higher quantities of a model are available in other stores.
+4: Show store transfers are suggested when higher quantities of a model are available in other stores.
