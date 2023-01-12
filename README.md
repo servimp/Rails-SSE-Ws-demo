@@ -16,7 +16,7 @@ IMPORTANT: if you are having problems with the websocketd executable not found, 
 
 `export PATH=$PATH:/usr/local/websocketd/bin`
 
-4: Start Rails `rails s`
+4: Start Rails from another terminal `rails s`
 
 5: Check demo on http://localhost:3000/index.html
 
